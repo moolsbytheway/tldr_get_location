@@ -1,6 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tldr_get_location/model.dart';
-import 'package:tldr_get_location/tldr_get_location.dart';
 
 import 'tldr_get_location_method_channel.dart';
 

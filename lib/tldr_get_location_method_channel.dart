@@ -28,7 +28,9 @@ class MethodChannelTldrGetLocation extends TldrGetLocationPlatform {
       return TldrLatLng(
           latitude: location["latitude"]!, longitude: location["longitude"]!);
     } catch (e) {
-      print("error: $e");
+      if (kDebugMode) {
+        print("error: $e");
+      }
       return null;
     }
   }
