@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:tldr_get_location/model.dart';
 
 import 'tldr_get_location_platform_interface.dart';
