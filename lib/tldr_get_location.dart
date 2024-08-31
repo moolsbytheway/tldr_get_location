@@ -1,3 +1,5 @@
+import 'package:tldr_get_location/model.dart';
+
 import 'tldr_get_location_platform_interface.dart';
 
 class TldrGetLocation {
@@ -5,7 +7,7 @@ class TldrGetLocation {
     return TldrGetLocationPlatform.instance.getPlatformVersion();
   }
 
-  Future<Map<String, double>?> getCurrentLocation() {
+  Future<TldrLatLng?> getCurrentLocation() {
     return TldrGetLocationPlatform.instance.getCurrentLocation();
   }
 }

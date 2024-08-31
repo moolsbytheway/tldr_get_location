@@ -1,4 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:tldr_get_location/model.dart';
+import 'package:tldr_get_location/tldr_get_location.dart';
 
 import 'tldr_get_location_method_channel.dart';
 
@@ -27,7 +29,7 @@ abstract class TldrGetLocationPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<Map<String, double>?> getCurrentLocation() {
+  Future<TldrLatLng?> getCurrentLocation() {
     throw UnimplementedError('getCurrentLocation() has not been implemented.');
   }
 }

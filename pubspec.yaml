@@ -1,6 +1,6 @@
 name: tldr_get_location
 description: "TLDR get location"
-version: 0.0.2
+version: 0.0.3
 
 homepage: https://camelcodes.net
 repository: https://github.com/moolsbytheway/tldr_get_location

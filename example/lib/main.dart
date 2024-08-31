@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tldr_get_location/model.dart';
 import 'package:tldr_get_location/tldr_get_location.dart';
 
 void main() {
@@ -34,11 +35,11 @@ class _LocationWidgetState extends State<LocationWidget> {
   String _locationMessage = "Location not retrieved yet";
 
   void _getLocation() async {
-    final location = await _tldrGetLocationPlugin.getCurrentLocation();
+    final TldrLatLng? location = await _tldrGetLocationPlugin.getCurrentLocation();
     if (location != null) {
       setState(() {
         _locationMessage =
-            "Latitude: ${location['latitude']}, Longitude: ${location['longitude']}";
+            "Latitude: ${location.latitude}, Longitude: ${location.longitude}";
       });
     } else {
       setState(() {

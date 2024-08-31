@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:tldr_get_location/model.dart';
 
 import 'tldr_get_location_platform_interface.dart';
 
@@ -12,18 +13,22 @@ class MethodChannelTldrGetLocation extends TldrGetLocationPlatform {
   @override
   Future<String?> getPlatformVersion() async {
     final version =
-    await methodChannel.invokeMethod<String>('getPlatformVersion');
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
   @override
-  Future<Map<String, double>?> getCurrentLocation() async {
+  Future<TldrLatLng?> getCurrentLocation() async {
     try {
       final Map<dynamic, dynamic>? result =
       await methodChannel.invokeMethod('getCurrentLocation');
-      return result?.cast<String, double>();
+
+      Map<String, double>? location = result?.cast<String, double>();
+      if (location == null) return null;
+      return TldrLatLng(
+          latitude: location["latitude"]!, longitude: location["longitude"]!);
     } catch (e) {
-      print("error: " + e.toString());
+      print("error: $e");
       return null;
     }
   }
