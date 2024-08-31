@@ -34,4 +34,17 @@ class MethodChannelTldrGetLocation extends TldrGetLocationPlatform {
       return null;
     }
   }
+  @override
+  Future<bool> requestLocationPermission() async {
+    try {
+      final bool result =
+      await methodChannel.invokeMethod('requestLocationPermission');
+      return result;
+    } catch (e) {
+      if (kDebugMode) {
+        print("error: $e");
+      }
+      return false;
+    }
+  }
 }

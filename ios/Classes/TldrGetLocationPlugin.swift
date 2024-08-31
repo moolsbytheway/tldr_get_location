@@ -23,6 +23,14 @@ public class TldrGetLocationPlugin: NSObject, FlutterPlugin {
                     ])
                 }
             }
+        } else if call.method == "requestLocationPermission" {
+              locationHelper.requestLocationPermission { granted in
+                    if granted {
+                        result(true)
+                    } else {
+                        result(false)
+                    }
+              }
         } else if call.method == "getPlatformVersion"  {
             result("iOS " + UIDevice.current.systemVersion)
         } else {

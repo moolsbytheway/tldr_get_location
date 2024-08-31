@@ -23,13 +23,18 @@ class LocationHelper(private val context: Context, private val activity: Fragmen
 
     private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
-    fun getCurrentLocation(onLocationResult: (location: Location?, errorCode: Int?) -> Unit) {
+    // Method to request location permissions
+    fun requestLocationPermission(onPermissionResult: (granted: Boolean) -> Unit) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
-            onLocationResult(null, ERROR_LOCATION_PERMISSION_DENIED)
-            return
+            onPermissionResult(false)
+        } else {
+            onPermissionResult(true)
         }
+    }
 
+    // Method to get current location
+    fun getCurrentLocation(onLocationResult: (location: Location?, errorCode: Int?) -> Unit) {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             onLocationResult(null, ERROR_LOCATION_SERVICE_DISABLED)

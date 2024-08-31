@@ -31,4 +31,8 @@ abstract class TldrGetLocationPlatform extends PlatformInterface {
   Future<TldrLatLng?> getCurrentLocation() {
     throw UnimplementedError('getCurrentLocation() has not been implemented.');
   }
+
+  Future<bool> requestLocationPermission() {
+    throw UnimplementedError('requestLocationPermission() has not been implemented.');
+  }
 }

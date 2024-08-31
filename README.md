@@ -46,17 +46,27 @@ Add the following permissions to the app level Android Manifest
 
 ### How to use ?
 
-Usage is simple as calling the method `getCurrentLocation`.
-the method return a map with latitude and longitude as keys.
+The plugin have to mathods `requestLocationPermission` and `getCurrentLocation`
+
+Call `requestLocationPermission` to request location permission, it will show the location permission popup and return `true` or `false`.
+Call `getCurrentLocation` to get the current location, it will return an object `TldrLatLng` with `latitude` and `longitude`.
 
 - Initialize the plugin
 
 ```dart
   final locationPlugin = TldrGetLocation();
+
+```
+
+- Ask for location permission
+
+```dart
+  final bool permissionGranted =
+    await locationPlugin.requestLocationPermission();
+
 ```
 
 - Get current location
-The plugin will ask for required permission automatically
 
 ```dart
   TldrLatLng? location = await locationPlugin.getCurrentLocation();
@@ -68,6 +78,7 @@ The plugin will ask for required permission automatically
 ## Example
 ```dart
 import 'package:flutter/material.dart';
+import 'package:tldr_get_location/model.dart';
 import 'package:tldr_get_location/tldr_get_location.dart';
 
 void main() {
@@ -101,9 +112,23 @@ class _LocationWidgetState extends State<LocationWidget> {
   final _tldrGetLocationPlugin = TldrGetLocation();
 
   String _locationMessage = "Location not retrieved yet";
-  
+  bool? _permissionGranted;
+
+  void _requestLocationPermission() async {
+    final bool permissionGranted =
+    await _tldrGetLocationPlugin.requestLocationPermission();
+    setState(() {
+      _permissionGranted = permissionGranted;
+    });
+  }
+
   void _getLocation() async {
-    final TldrLatLng? location = await _tldrGetLocationPlugin.getCurrentLocation();
+    if (_permissionGranted == null || !_permissionGranted!) {
+      showErrorDialog(context, "Please request location permission first");
+      return;
+    }
+    final TldrLatLng? location =
+    await _tldrGetLocationPlugin.getCurrentLocation();
     if (location != null) {
       setState(() {
         _locationMessage =
@@ -122,6 +147,19 @@ class _LocationWidgetState extends State<LocationWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Text(_permissionGranted == null
+              ? "Location permission not requested yet"
+              : _permissionGranted!
+              ? "Location permission granted"
+              : "Location permission denied"),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _requestLocationPermission,
+            child: const Text('Request location permission'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Text(_locationMessage),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -133,4 +171,25 @@ class _LocationWidgetState extends State<LocationWidget> {
     );
   }
 }
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+          title: Text("Error"),
+          content: Text(errorMessage),
+          actions: [
+            Center(
+                child: ElevatedButton(
+                  child: Text("Dismiss"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ))
+          ]);
+    },
+  );
+}
+
 ```

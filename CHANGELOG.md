@@ -8,4 +8,8 @@
 
 ## 0.0.3
 
-* Added TldrLatLng model
+* Added TldrLatLng model.
+
+## 0.0.4
+
+* Add method to request for location permission.
